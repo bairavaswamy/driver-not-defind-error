@@ -10,7 +10,7 @@ const initiatingServerDBandNode = async () => {
   try {
     db = await open({
       filename: dbpath,
-      driver: sqlite3.Datebase,
+      driver: sqlite3.Database,
     })
     app.listen(3000, () => {
       console.log('Server running...')
@@ -22,3 +22,9 @@ const initiatingServerDBandNode = async () => {
 }
 
 initiatingServerDBandNode()
+
+app.get('/books/', async (request, response) => {
+  const querry = `SELECT * FROM book ORDER BY book_id;`
+  const books = await db.all(querry)
+  response.send(books)
+})
